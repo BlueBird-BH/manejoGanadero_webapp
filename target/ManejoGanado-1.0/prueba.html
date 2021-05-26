@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Regístrate • Manejo de Ganado</title>
+
+        <!-- Iconos -->
+        <link href="icon/favicon.svg" rel="icon" type="icon/svg+xml" sizes="any">
+        <link rel="stylesheet" href="icon/material-design-iconic-font/css/material-design-iconic-font.min.css">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/registroUsuarios.css">
+
+        <!-- Javascript -->
+        <script src="js/local/visualizarClave.js"></script>
+
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+        <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyBXolYk8LkT3K2qiMFlBetdmXd4oqgX2Mk",
+                authDomain: "manejo-de-ganado.firebaseapp.com",
+                projectId: "manejo-de-ganado",
+                storageBucket: "manejo-de-ganado.appspot.com",
+                messagingSenderId: "978999983868",
+                appId: "1:978999983868:web:30ddfcd029787628566179"
+            };
+            firebase.initializeApp(firebaseConfig);
+
+            var ui = new firebaseui.auth.AuthUI(firebase.auth());
+            ui.start('#firebaseui-auth-container', {
+                signInSuccessUrl: 'index.html',
+                signInOptions: [
+                    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+                ]
+            });
+
+            ui.start('#firebaseui-auth-container', uiConfig);
+        </script>
+    </head>
+
+    <body>
+        <h1>Welcome to My Awesome App</h1>
+        <div id="firebaseui-auth-container"></div>
+        <div id="loader">Loading...</div>
+    </body>
+
+</html>

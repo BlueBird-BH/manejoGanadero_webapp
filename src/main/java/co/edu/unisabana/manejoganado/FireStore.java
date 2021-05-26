@@ -60,19 +60,20 @@ public class FireStore {
         }
     }
     
-    public String agregarDatos(String nombre, String edad, String corral, String codigoMadre) {
+    public String agregarDatos(String usuario, String nombre, String edad, String corral, String codigoMadre) {
         try {
             if (!iniciadoPreviamente) { iniciarBaseDatos(); }
             Firestore BaseDatos = FirestoreClient.getFirestore();
 
             String codigo = generarCodigo();
             Map<String, Object> datosVaca = new HashMap<>();
+            
             datosVaca.put("nombre", nombre);
             datosVaca.put("edad", edad);
             datosVaca.put("corral", corral);
             datosVaca.put("codigoMadre", codigoMadre);
             
-            BaseDatos.collection("vacas").document(codigo).set(datosVaca);
+            BaseDatos.collection(usuario).document(codigo).set(datosVaca);
             return codigo;
         } catch (Exception error) {
             Logger.getLogger(FireStore.class.getName()).log(Level.SEVERE, null, error);

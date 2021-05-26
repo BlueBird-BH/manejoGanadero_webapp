@@ -11,9 +11,12 @@
         <!-- CSS -->
         <link rel="stylesheet" href="css/manejoGanado.css">
         <!-- Javascript -->
-        <script src="js/gestionAnimaciones.js" type="text/javascript"></script>
-        <script src="js/modificarDatos.js" type="text/javascript"></script>
-        <script src="js/chart.js"></script>
+        <script src="js/local/gestionAnimaciones.js"></script>
+        <script src="js/firebase/modificarDatos.js"></script>
+        <script src="js/graficos/chart.js"></script>
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
     </head>
 
     <body>
@@ -131,7 +134,6 @@
                                             <div class="contenedorGrafica">
                                                 <canvas id="graficaJavascript"></canvas>
                                             </div>
-                                            <script src="js/graficaLineal.js" type="text/javascript"></script>
                                         </div>
                                     </div>
                                     <div>
@@ -309,5 +311,8 @@
             <i class="botonDesplazamiento fas fa-arrow-up" onclick="desplazarArriba()"></i>
         </div>
     </body>
-
+    <!-- Javascript -->
+    <script src="js/graficos/graficaLineal.js"></script>
+    <script src="js/firebase/auth/inicializarFirebase.js"></script>
+    <script src="js/firebase/auth/gestionUsuario.js"></script>
 </html>

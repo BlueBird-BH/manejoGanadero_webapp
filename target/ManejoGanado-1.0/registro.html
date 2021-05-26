@@ -14,7 +14,11 @@
         <link rel="stylesheet" href="css/registroUsuarios.css">
 
         <!-- Javascript -->
-        <script src="js/visualizarClave.js"></script>
+        <script src="js/local/visualizarClave.js"></script>
+ 
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
     </head>
 
     <body>
@@ -38,10 +42,8 @@
                                 </div>
                                 <!-- Ver clave -->
                                 <div class="contenedorFormulario">
-                                    <input type="checkbox" onclick="verClave()" id="visualizarClave"
-                                           class="visualizarClave" />
-                                    <label for="visualizarClave" class="textoVisualizarClave"><span><span></span></span>Ver
-                                        contraseña</label>
+                                    <input type="checkbox" onclick="verClave()" id="visualizarClave" class="visualizarClave" />
+                                    <label for="visualizarClave" class="textoVisualizarClave"><span><span></span></span>Ver contraseña</label>
                                 </div>
                                 <!-- Boton de registro -->
                                 <div class="contenedorFormulario botonFormulario">
@@ -51,7 +53,7 @@
                                 <div class="contenedorGoogle">
                                     <span class="tituloGoogle">¡Registrate usando Google!</span>
                                     <ul class="grupoIconosGoogle">
-                                        <li><a href="#"><i class="recuadroGoogle zmdi zmdi-google"></i></a></li>
+                                        <li><a href="#"><i class="recuadroGoogle zmdi zmdi-google" onclick="ingresarGoogle()"></i></a></li>
                                     </ul>
                                 </div>
                             </form>
@@ -64,8 +66,10 @@
                     </div>
                 </div>
             </section>
-
+            
         </div>
     </body>
-
+    <script src="js/firebase/auth/inicializarFirebase.js"></script>
+    <script src="js/firebase/auth/autenticacionGoogle.js"></script>
+    <script src="js/firebase/auth/registro.js"></script>
 </html>

@@ -35,12 +35,13 @@ public class ServletAgregarDatos extends HttpServlet {
         Gson gson = new Gson();
         JsonObject datos = gson.fromJson(datosJson, JsonObject.class);
 
+        String usuario = datos.get("usuario").getAsString();
         String nombre = datos.get("nombre").getAsString();
         String edad = datos.get("edad").getAsString();
         String corral = datos.get("corral").getAsString();
         String codigoMadre = datos.get("codigoMadre").getAsString();
 
-        String codigo = gestorDatos.agregarDatos(nombre, edad, corral, codigoMadre);
+        String codigo = gestorDatos.agregarDatos(usuario, nombre, edad, corral, codigoMadre);
         enviarRespuesta(response, codigo);
     }
 
