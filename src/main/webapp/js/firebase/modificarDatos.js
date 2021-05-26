@@ -25,6 +25,7 @@ function datosVaquitas(datos) {
             let elementos = JSON.parse(datos[codigo]);
 
             tabla.innerHTML += crearTabla(codigo, elementos.nombre, elementos.edad, "x", elementos.corral);
+            añadirElementosLista(codigo, elementos.nombre);
         }
     }
 }
@@ -79,6 +80,7 @@ function mostrarDatosAgregados(codigo) {
     let litrosLeche = "Valor no disponible";
 
     contenidoHTML = crearTabla(codigo, datosVaca.nombre, datosVaca.edad, litrosLeche, datosVaca.corral);
+    añadirElementosLista(codigo, datosVaca.nombre);
     limpiarDatosAgregados();
     tabla.innerHTML += contenidoHTML;
 }
@@ -95,23 +97,21 @@ function limpiarDatosAgregados() {
     codigoMadre.value = "";
 }
 
-function añadirElementosLista() {
+function añadirElementosLista(id, nombre) {
     let lista = document.getElementById("lista");
-    contenidoHTML = "<tr>";
-    /*
-     * let select_Usuarios = document.getElementById("select_Usuarios");
-     select_Usuarios.innerHTML = "";
-     
-     for (let n = 0; n < lista_Usuarios.length; n++) {
-     let opcion = document.createElement("option");
-     opcion.value = lista_Usuarios[n].id;
-     opcion.innerText = lista_Usuarios[n].name;
-     select_Usuarios.add(opcion);
-     }
-     <div id="lista" class="desplegable" tabindex="1">
-     <input id="423122" class="inputDesplegable" name="opcion" type="radio">
-     <label for="423122" class="labelDesplegable">Juana</label>
-     */
+    let codigoInput = "input" + "." + id;
+    let codigoLabel = "label" + "." + id;  
+    
+    contenidoInput = `<input id="${codigoInput}" class="inputDesplegable" name="opcion" type="radio">`;
+    contenidoLabel = `<label for="${codigoInput}" id="${codigoLabel}" onclick="onclikputo(id)" class="labelDesplegable">${nombre}</label>`;
+    
+    lista.innerHTML += contenidoInput;
+    lista.innerHTML += contenidoLabel;
+}
+
+function onclikputo(id) {
+    let nombre = document.getElementById(id);
+    console.log(nombre);
 }
 
 function presentarInforme() {
