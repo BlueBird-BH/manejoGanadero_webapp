@@ -1,0 +1,495 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+:root {
+    --blanco: #fefefe;
+    --negro: #2d2d2d;
+    --verde: #00af86;
+    --verdeOscuro: #348673;
+    --beige: #777;
+    --gris: #999;
+    --grisClaro: #dfe9e7;
+    --azul: #21aeda;
+    --rojo: #da6b21;
+    --fondoNegro: rgba(24, 25, 24, 0.72);
+    --sombraNegra: rgba(0, 0, 0, 0.05);
+}
+
+@keyframes animacionRevelar {
+	from { opacity: 0.3; }
+	to { opacity: 1; }
+}
+
+html {
+    /* Usa una imagen de fondo y pone una capa translucida */
+    background: linear-gradient(
+            var(--fondoNegro),
+            var(--fondoNegro)
+        ),
+        url("../img/fondo.jpg") no-repeat center center fixed;
+    /* Se asegura de que la imagen se expanda en toda la pantalla */
+    background-size: cover;
+    height: 100%;
+    /* Permite una animacion suave cuando se hace un scroll automatico */
+    scroll-behavior: smooth;
+}
+
+body {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--negro);
+    font-weight: 400;
+    font-family: "Poppins", sans-serif;
+}
+
+h2 {
+    line-height: 1.66;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    color: var(--negro);
+    font-family: Poppins;
+    font-size: 36px;
+}
+
+p {
+    margin-bottom: 0px;
+    font-size: 15px;
+    color: var(--beige);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+figure {
+    margin: 0;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+a:focus,
+a:active {
+    text-decoration: none;
+    outline: none;
+    transition: all 300ms ease 0s;
+}
+
+input,
+select,
+textarea {
+    outline: none;
+    appearance: unset !important;
+}
+
+display-flex,
+.display-flex,
+.recuadroGoogle,
+.contenedorRegistro,
+.contenidoIngreso,
+.contenedorGoogle,
+.grupoIconosGoogle {
+    display: flex;
+}
+
+list-type-ulli,
+.grupoIconosGoogle {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    appearance: none !important;
+    margin: 0;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: none !important;
+}
+
+input[type="checkbox"] {
+    appearance: checkbox !important;
+}
+
+input[type="radio"] {
+    appearance: radio !important;
+}
+
+input {
+    width: 100%;
+    display: block;
+    border: none;
+    border-bottom: 1px solid var(--gris);
+    padding: 6px 30px;
+    font-family: Poppins;
+    box-sizing: border-box;
+}
+input::-webkit-input-placeholder {
+    color: var(--gris);
+}
+input::-moz-placeholder {
+    color: var(--gris);
+}
+input:-ms-input-placeholder {
+    color: var(--gris);
+}
+input:-moz-placeholder {
+    color: var(--gris);
+}
+input:focus {
+    border-bottom: 1px solid var(--negro);
+}
+input:focus::-webkit-input-placeholder {
+    color: var(--negro);
+}
+input:focus::-moz-placeholder {
+    color: var(--negro);
+}
+input:focus:-ms-input-placeholder {
+    color: var(--negro);
+}
+input:focus:-moz-placeholder {
+    color: var(--negro);
+}
+
+input[type="checkbox"]:not(old) {
+    width: 2em;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    display: none;
+}
+
+input[type="checkbox"]:not(old) + label {
+    display: inline-block;
+    line-height: 1.5em;
+    margin-top: 6px;
+}
+
+input[type="checkbox"]:not(old) + label > span {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    margin-right: 15px;
+    margin-bottom: 3px;
+    border: 1px solid var(--gris);
+    border-radius: 2px;
+    background: var(--blanco);
+    background-image: linear-gradient(var(--blanco), var(--blanco));
+    vertical-align: bottom;
+}
+
+input[type="checkbox"]:not(old):checked + label > span {
+    background-image: linear-gradient(var(--blanco), var(--blanco));
+}
+
+input[type="checkbox"]:not(old):checked + label > span:before {
+    content: "\f26b";
+    display: block;
+    color: var(--negro);
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center;
+    font-family: "Material-Design-Iconic-Font";
+    font-weight: bold;
+}
+
+label {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--negro);
+}
+
+label.error {
+    position: relative;
+    background: url("../images/unchecked.gif") no-repeat;
+    background-position-y: 3px;
+    padding-left: 20px;
+    display: block;
+    margin-top: 20px;
+}
+
+label.valid {
+    display: block;
+    position: absolute;
+    right: 0;
+    left: auto;
+    margin-top: -6px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+}
+label.valid:after {
+    font-family: "Material-Design-Iconic-Font";
+    content: "\f269";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    /* right: 0; */
+    font-size: 16px;
+    color: green;
+}
+
+#envio {
+    margin-top: 16px;
+}
+
+.contenedorPrincipal {
+    padding: 10% 0;
+    animation: animacionRevelar 1s;
+}
+
+.clear {
+    clear: both;
+}
+
+.contenedorIngreso {
+    width: 900px;
+    background: var(--blanco);
+    margin: 0 auto;
+    box-shadow: 0px 15px 16.83px 0.17px var(--sombraNegra);
+    border-radius: 20px;
+}
+
+.display-flex {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recuadroGoogle {
+    justify-content: center;
+    align-items: center;
+}
+
+.position-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.contenedorRegistro {
+    padding: 75px 0;
+}
+
+.contenidoRegistro,
+.imagenSeccionIngreso,
+.formularioIngreso,
+.imagenIngreso {
+    width: 50%;
+    overflow: hidden;
+}
+
+.imagenSeccionIngreso {
+    margin: 0 55px;
+}
+
+.tituloFormulario {
+    margin-bottom: 33px;
+}
+
+.imagenSeccionIngreso {
+    margin-top: 45px;
+}
+
+.botonEnvio {
+    display: inline-block;
+    background: var(--verde);
+    color: var(--blanco);
+    border-bottom: none;
+    width: auto;
+    padding: 15px 39px;
+    border-radius: 5px;
+    margin-top: 25px;
+    cursor: pointer;
+}
+
+.botonEnvio:hover {
+    background: var(--verdeOscuro);
+    color: var(--grisClaro);
+}
+
+.vinculoRegistro {
+    font-size: 14px;
+    color: var(--negro);
+    display: block;
+    text-align: center;
+}
+
+.term-service {
+    font-size: 13px;
+    color: var(--negro);
+}
+
+.contenidoRegistro {
+    margin-left: 75px;
+    margin-right: 75px;
+    padding-left: 34px;
+}
+
+.formularioRegistro {
+    width: 100%;
+}
+
+.contenedorFormulario {
+    position: relative;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.contenedorFormulario:last-child {
+    margin-bottom: 0px;
+}
+
+.visualizarClave {
+    display: inline-block;
+    width: auto;
+}
+
+.label-has-error {
+    top: 22%;
+}
+
+.textoVisualizarClave {
+    position: relative;
+    top: 0%;
+    transform: translateY(0);
+}
+
+.iconoCorreo {
+    font-size: 18px;
+}
+
+.contenidoIngreso {
+    padding-top: 67px;
+    padding-bottom: 87px;
+}
+
+.contenedorGoogle {
+    align-items: center;
+    margin-top: 80px;
+}
+
+.tituloGoogle {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.grupoIconosGoogle li {
+    padding: 5px;
+}
+.grupoIconosGoogle li:last-child {
+    margin-right: 0px;
+}
+.grupoIconosGoogle li a {
+    text-decoration: none;
+}
+.grupoIconosGoogle li a i {
+    width: 30px;
+    height: 30px;
+    color: var(--blanco);
+    font-size: 14px;
+    border-radius: 5px;
+    transform: translateZ(0);
+    transition-duration: 0.3s;
+    transition-property: transform;
+    transition-timing-function: ease-out;
+}
+.grupoIconosGoogle li:hover a i {
+    transform: scale(1.3) translateZ(0);
+}
+
+.zmdi-google {
+    background: var(--azul);
+}
+
+.formularioIngreso {
+    margin-right: 90px;
+    margin-left: 80px;
+}
+
+.imagenIngreso {
+    margin-left: 110px;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+    .contenedorIngreso {
+        width: calc(100% - 30px);
+        max-width: 100%;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .contenedorIngreso {
+        max-width: 1200px;
+    }
+}
+@media screen and (max-width: 845px) {
+    figure {
+        display: none;
+    }
+
+    .contenedorRegistro,
+    .contenidoIngreso {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .contenidoRegistro {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding: 0 30px;
+    }
+
+    .imagenIngreso {
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 50px;
+        order: 2;
+    }
+
+    .contenidoRegistro,
+    .imagenSeccionIngreso,
+    .formularioIngreso,
+    .imagenIngreso {
+        width: auto;
+    }
+
+    .contenedorGoogle {
+        justify-content: center;
+    }
+
+    .botonFormulario {
+        text-align: center;
+    }
+
+    .formularioIngreso {
+        order: 1;
+        margin-right: 0px;
+        margin-left: 0px;
+        padding: 0 30px;
+    }
+
+    .tituloFormulario {
+        text-align: center;
+    }
+}
+@media screen and (max-width: 400px) {
+    .contenedorGoogle {
+        flex-direction: column;
+    }
+
+    .tituloGoogle {
+        margin-right: 0px;
+        margin-bottom: 10px;
+    }
+}

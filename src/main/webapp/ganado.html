@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Manejo de Ganado</title>
+        <!-- Iconos -->
+        <link rel="icon" href="icon/favicon.svg" type="icon/svg+xml" sizes="any">
+        <link rel="stylesheet" href="icon/fontawesome/css/all.min.css">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/manejoGanado.css">
+        <!-- Javascript -->
+        <script src="js/gestionAnimaciones.js" type="text/javascript"></script>
+        <script src="js/modificarDatos.js" type="text/javascript"></script>
+        <script src="js/chart.js"></script>
+    </head>
+
+    <body>
+        <div class="contenedorPrincipal">
+            <div class="hilera">
+                <!-- Menu -->
+                <div class="hileraIzquierda">
+                    <div class="contenidoHileraIzquierda">
+                        <!-- Encabezado -->
+                        <div class="hileraEncabezado">
+                            <i class="logoEncabezado fas fa-tractor fa-2x"></i>
+                            <h1 class="tituloEncabezado">Manejo de Ganado</h1>
+                        </div>
+                        <!-- Botones del menu -->
+                        <nav class="hileraMenu">
+                            <ul class="contenidoMenu">
+                                <!-- Tablas -->
+                                <li class="botonesMenu">
+                                    <a id="botonTabla" href="#tabla" class="enlacesMenu active" onclick="cambiarCategoria(id)">
+                                        <i class="iconosMenu fas fa-table"></i>
+                                        <span>Ganado registrado</span>
+                                    </a>
+                                </li>
+                                <!-- Historial -->
+                                <li class="botonesMenu">
+                                    <a id="botonHistorial" href="#historial" class="enlacesMenu" onclick="cambiarCategoria(id)">
+                                        <i class="iconosMenu fas fa-chart-line"></i>
+                                        <span>Historial de producción</span>
+                                    </a>
+                                </li>
+                                <!-- Cerrar sesion -->
+                                <li class="botonesMenu">
+                                    <a id="botonSalir" href="ingreso.html" class="enlacesMenu" onclick="cambiarCategoria(id)">
+                                        <i class="iconosMenu fas fa-sign-out-alt"></i>
+                                        <span>Cerrar sesion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Hilera derecha -->
+                <div class="hileraDerecha">
+                    <main class="contenedorDerecha">
+                        <!-- Tabla -->
+                        <div id="contenidoTabla" class="contenidoHileraDerecha">
+                            <!-- Boton para agregar -->
+                            <div>
+                                <span class="boton botonAgregar" onclick="abrirVentana('ventanaAgregar')">
+                                    Agregar datos »
+                                </span>
+                            </div>
+                            <!-- Elementos de la tabal -->
+                            <div>
+                                <table class="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Codigo</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Meses de edad</th>
+                                            <th scope="col">Promedio de leche</th>
+                                            <th scope="col">Corral</th>
+                                            <th scope="col">Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="datosTabla">
+                                        <tr>
+                                            <td data-label="Codigo">423122</td>
+                                            <td data-label="Nombre">Juana</td>
+                                            <td data-label="Meses de edad">48</td>
+                                            <td data-label="Promedio de leche">7 Litros</td>
+                                            <td data-label="Corral">2</td>
+                                            <td data-label="Opciones">
+                                                <i class="boton botonInforme fas fa-file-alt" onclick="accesoDirectoInforme()"></i>
+                                                <i class="boton botonEditar fas fa-edit" onclick="abrirVentana('ventanaEditar')"></i>
+                                                <i class="boton botonEliminar fas fa-trash-alt" onclick="abrirVentana('ventanaEliminar')"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Historial -->
+                        <div id="contenidoHistorial" class="contenidoHileraDerecha" style="display:none;">
+                            <!-- Menu desplegable -->
+                            <div class="desplegable" tabindex="1">
+                                <input id="opcionTitulo" class="inputDesplegable" name="opcion" type="radio" disabled checked>
+                                <label for="opcionTitulo" class="labelDesplegable">Selecciona un nombre</label>
+                                <input id="423122" class="inputDesplegable" name="opcion" type="radio">
+                                <label for="423122" class="labelDesplegable">Juana</label>
+                            </div>
+                            <!-- Menu -->
+                            <nav class="contenedorMenuHistorial menuHistorial">
+                                <ul>
+                                    <li>
+                                        <a href="#historial" id="botonGrafica" onclick="cambiarCategoriaHistorial(id)"
+                                           class="enlacesHistorial active">
+                                            Produccion de leche
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#historial" id="botonInforme" onclick="cambiarCategoriaHistorial(id)"
+                                           class="enlacesHistorial">
+                                            Informe
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- Grafica -->
+                            <div id="contenidoGrafica" class="contenidoMenuHistorial">
+                                <div class="opcionesMenuHistorial">
+                                    <!-- Opcion -->
+                                    <div class="opcionMenu">
+                                        <div class="contenedorMenuHistorial textoOpcionMenu">
+                                            <div class="contenedorGrafica">
+                                                <canvas id="graficaJavascript"></canvas>
+                                            </div>
+                                            <script src="js/graficaLineal.js" type="text/javascript"></script>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="boton botonAgregar botonDatosLeche" onclick="abrirVentana('ventanaProduccion')">
+                                            Ingresar litros producidos
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Informe -->
+                            <div id="contenidoInforme" class="contenidoMenuHistorial" style="display:none;">
+                                <div class="opcionesMenuHistorial">
+                                    <div class="opcionMenu">
+                                        <table class="informe">
+                                            <tbody id="datosInforme">
+                                                <tr>
+                                                    <td data-label="Codigo">423122</td>
+                                                    <td data-label="Nombre">Juana</td>
+                                                    <td data-label="Meses de edad">48</td>
+                                                    <td data-label="Produccion diaria de leche">7 Litros</td>
+                                                    <td data-label="Corral donde se encuentra">2</td>
+                                                    <td data-label="Codigo de la madre">223748</td>
+                                                    <td data-label="Nombre de la madre">Juana</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Final del Informe -->
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agregar datos -->
+        <div id="ventanaAgregar" class="ventanaAccion" style="display:none;">
+            <table class="tablaVentanaAccion">
+                <thead>
+                    <tr>
+                        <th>Agregar datos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <form class="formVentanaAccion">
+                                <div class="contenedorVentanaAccion">
+                                    <input id="agregarNombre" type="text" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Nombre" required>
+                                </div>
+
+                                <div class="contenedorVentanaAccion">
+                                    <input id="agregarEdad" type="text" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Edad" required>
+                                </div>
+
+                                <div class="contenedorVentanaAccion">
+                                    <input id="agregarCorral" type="text" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Corral" required>
+                                </div>
+
+                                <div class="contenedorVentanaAccion">
+                                    <input id="agregarCodigoMadre" type="text" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Codigo de la madre">
+                                </div>
+
+                                <i onclick="agregarDatos()" class="botonVentanaAccion botonGuardar fas fa-save"></i>
+                                <i onclick="cerrarVentana('ventanaAgregar')" class="botonVentanaAccion botonCerrar fas fa-undo-alt"></i>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Editar datos -->
+        <div id="ventanaEditar" class="ventanaAccion" style="display:none;">
+            <table class="tablaVentanaAccion">
+                <thead>
+                    <tr>
+                        <th>Editar datos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <form class="formVentanaAccion">
+                                <div class="contenedorVentanaAccion">
+                                    <input id="editarCodigo" type="text" name="name" class="textoVentanaAccion ingresoTexto" value="" disabled>
+                                </div>
+
+                                <div class="contenedorVentanaAccion">
+                                    <input id="editarNombre" type="text" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Nombre" required>
+                                </div>
+
+                                <div class="contenedorVentanaAccion">
+                                    <input id="editarCorral" type="text" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Corral" required>
+                                </div>
+
+                                <div class="contenedorVentanaAccion">
+                                    <input id="editarCodigoMadre" type="text" name="name" class="textoVentanaAccion ingresoTexto"
+                                           placeholder="Codigo de la madre" required>
+                                </div>
+
+                                <i onclick="editarDatos()" class="botonVentanaAccion botonGuardar fas fa-save"></i>
+                                <i onclick="cerrarVentana('ventanaEditar')" class="botonVentanaAccion botonCerrar fas fa-undo-alt"></i>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Eliminar datos -->
+        <div id="ventanaEliminar" class="ventanaAccion" style="display:none;">
+            <table class="tablaVentanaAccion">
+                <thead>
+                    <tr>
+                        <th>Eliminar datos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <form class="formVentanaAccion">
+                                <p class="textoVentanaAccion textoAlerta">¿Estas seguro que deseas continuar?</p>
+
+                                <div class="contenedorVentanaAccion">
+                                    <p class="textoVentanaAccion subtituloVentana">Codigo</p>
+                                    <input id="eliminarCodigo" type="text" name="name" class="ingresoTexto" value="" disabled>
+                                </div>
+
+                                <div class="contenedorVentanaAccion">
+                                    <p class="textoVentanaAccion subtituloVentana">Nombre</p>
+                                    <input id="eliminarNombre" type="text" name="name" class="ingresoTexto" value="" disabled>
+                                </div>
+
+                                <i onclick="eliminarDatos()" class="botonVentanaAccion botonGuardar fas fa-check-square"></i>
+                                <i onclick="cerrarVentana('ventanaEliminar')" class="botonVentanaAccion botonCerrar fas fa-window-close"></i>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Agregar datos de produccion -->
+        <div id="ventanaProduccion" class="ventanaAccion" style="display:none;">
+            <table class="tablaVentanaAccion">
+                <thead>
+                    <tr>
+                        <th>¿Cuantos litros produjo?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <form class="formVentanaAccion">
+                                <div class="contenedorVentanaAccion">
+                                    <input id="produccionNombre" type="text" name="name" class="textoVentanaAccion ingresoTexto" value="Nombre" disabled>
+                                </div>
+
+                                <div class="contenedorVentanaAccion">
+                                    <input id="produccionLitros" type="number" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Litros de leche" required>
+                                </div>
+
+                                <i onclick="agregarDatosProduccion()" class="botonVentanaAccion botonGuardar fas fa-plus"></i>
+                                <i onclick="cerrarVentana('ventanaProduccion')" class="botonVentanaAccion botonCerrar fas fa-undo-alt"></i>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Boton para volver arriba -->
+        <div class="contenedorBajo">
+            <i class="botonDesplazamiento fas fa-arrow-up" onclick="desplazarArriba()"></i>
+        </div>
+    </body>
+
+</html>
