@@ -17,6 +17,18 @@ function modificarEstadoVentana(id, estado) {
     }
 }
 
+function datosVaquitas(datos) {
+    let tabla = document.getElementById("datosTabla");
+
+    for (var codigo in datos) {
+        if (datos.hasOwnProperty(codigo)) {
+            let elementos = JSON.parse(datos[codigo]);
+
+            tabla.innerHTML += crearTabla(codigo, elementos.nombre, elementos.edad, "x", elementos.corral);
+        }
+    }
+}
+
 function identificacionUsuario() {
     const tokenUsuario = obtenerToken();
     const usuarioActual = String(tokenUsuario);
@@ -64,20 +76,9 @@ function enviarDatosAgregados() {
 function mostrarDatosAgregados(codigo) {
     let tabla = document.getElementById("datosTabla");
     let datosVaca = obtenerDatosAgregados();
-    let id = codigo;
     let litrosLeche = "Valor no disponible";
 
-    contenidoHTML = "<tr>";
-    contenidoHTML += `  <td data-label="Codigo">${id}</td>`;
-    contenidoHTML += `  <td data-label="Nombre">${datosVaca.nombre}</td>`;
-    contenidoHTML += `  <td data-label="Meses de edad">${datosVaca.edad}</td>`;
-    contenidoHTML += `  <td data-label="Promedio de leche">${litrosLeche}</td>`;
-    contenidoHTML += `  <td data-label="Corral">${datosVaca.corral}</td>`;
-    contenidoHTML += `  <td data-label="Opciones"><i class="boton botonInforme fas fa-file-alt" onclick="accesoDirectoInforme()"></i>`;
-    contenidoHTML += `  <i class="boton botonEditar fas fa-edit" onclick="abrirVentana('ventanaEditar')"></i>`;
-    contenidoHTML += `  <i class="boton botonEliminar fas fa-trash-alt" onclick="abrirVentana('ventanaEliminar')"></i></td>`;
-    contenidoHTML += "</tr>";
-
+    contenidoHTML = crearTabla(codigo, datosVaca.nombre, datosVaca.edad, litrosLeche, datosVaca.corral);
     limpiarDatosAgregados();
     tabla.innerHTML += contenidoHTML;
 }
@@ -93,4 +94,47 @@ function limpiarDatosAgregados() {
     corral.value = "";
     codigoMadre.value = "";
 }
+
+function añadirElementosLista() {
+    let lista = document.getElementById("lista");
+    contenidoHTML = "<tr>";
+    /*
+     * let select_Usuarios = document.getElementById("select_Usuarios");
+     select_Usuarios.innerHTML = "";
+     
+     for (let n = 0; n < lista_Usuarios.length; n++) {
+     let opcion = document.createElement("option");
+     opcion.value = lista_Usuarios[n].id;
+     opcion.innerText = lista_Usuarios[n].name;
+     select_Usuarios.add(opcion);
+     }
+     <div id="lista" class="desplegable" tabindex="1">
+     <input id="423122" class="inputDesplegable" name="opcion" type="radio">
+     <label for="423122" class="labelDesplegable">Juana</label>
+     */
+}
+
+function presentarInforme() {
+    let informe = document.getElementById("datosInforme");
+}
+
+function elementoTabla(codigo, elemento) {
+    return codigo + "." + elemento;
+}
+
+function crearTabla(codigo, nombre, edad, litrosLeche, corral) {
+    contenidoHTML = "<tr>";
+    contenidoHTML += `  <td id="${elementoTabla(codigo, 'codigo')}" data-label="Codigo">${codigo}</td>`;
+    contenidoHTML += `  <td id="${elementoTabla(codigo, 'nombre')}" data-label="Nombre">${nombre}</td>`;
+    contenidoHTML += `  <td id="${elementoTabla(codigo, 'edad')}" data-label="Meses de edad">${edad}</td>`;
+    contenidoHTML += `  <td id="${elementoTabla(codigo, 'litrosLeche')}" data-label="Promedio de leche">${litrosLeche}</td>`;
+    contenidoHTML += `  <td id="${elementoTabla(codigo, 'corral')}" data-label="Corral">${corral}</td>`;
+    contenidoHTML += `  <td data-label="Opciones"><i class="boton botonInforme fas fa-file-alt" onclick="accesoDirectoInforme()"></i>`;
+    contenidoHTML += `  <i class="boton botonEditar fas fa-edit" onclick="abrirVentana('ventanaEditar')"></i>`;
+    contenidoHTML += `  <i class="boton botonEliminar fas fa-trash-alt" onclick="abrirVentana('ventanaEliminar')"></i></td>`;
+    contenidoHTML += "</tr>";
+
+    return contenidoHTML;
+}
+
 // Agregar datos - Final

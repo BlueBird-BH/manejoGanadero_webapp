@@ -49,7 +49,7 @@
                                 </li>
                                 <!-- Cerrar sesion -->
                                 <li class="botonesMenu">
-                                    <a id="botonSalir" href="ingreso.html" class="enlacesMenu" onclick="cambiarCategoria(id)">
+                                    <a id="botonSalir" href="#salir" class="enlacesMenu" onclick="cerrarSesion()">
                                         <i class="iconosMenu fas fa-sign-out-alt"></i>
                                         <span>Cerrar sesion</span>
                                     </a>
@@ -102,7 +102,7 @@
                         <!-- Historial -->
                         <div id="contenidoHistorial" class="contenidoHileraDerecha" style="display:none;">
                             <!-- Menu desplegable -->
-                            <div class="desplegable" tabindex="1">
+                            <div id="lista" class="desplegable" tabindex="1">
                                 <input id="opcionTitulo" class="inputDesplegable" name="opcion" type="radio" disabled checked>
                                 <label for="opcionTitulo" class="labelDesplegable">Selecciona un nombre</label>
                                 <input id="423122" class="inputDesplegable" name="opcion" type="radio">

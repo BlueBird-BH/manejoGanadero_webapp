@@ -1,13 +1,17 @@
 package co.edu.unisabana.manejoganado;
 
+import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -16,18 +20,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 public class FireStore {
+
     private boolean iniciadoPreviamente;
 
     public FireStore() {
     }
-    
+
     private String generarCodigo() {
         UUID codigoUnico = UUID.randomUUID();
         String codigoString = codigoUnico.toString();
         String codigo = StringUtils.substringBefore(codigoString, "-");
         return codigo;
     }
-    
+
     private JSONObject credencialesSDK() {
         JSONObject credencialesSDK = new JSONObject();
         credencialesSDK.put("type", "service_account");
@@ -42,7 +47,7 @@ public class FireStore {
         credencialesSDK.put("client_x509_cert_url", "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-qpf18%40manejo-de-ganado.iam.gserviceaccount.com");
         return credencialesSDK;
     }
-    
+
     private void iniciarBaseDatos() {
         String credencialesSDK = credencialesSDK().toString();
         try {
@@ -52,29 +57,67 @@ public class FireStore {
             FirebaseOptions ParametrosBaseDatos = new FirebaseOptions.Builder()
                     .setCredentials(credencialesGoogle)
                     .build();
-            
+
             FirebaseApp.initializeApp(ParametrosBaseDatos);
             iniciadoPreviamente = true;
         } catch (Exception error) {
             Logger.getLogger(FireStore.class.getName()).log(Level.SEVERE, null, error);
         }
     }
-    
-    public String agregarDatos(String usuario, String nombre, String edad, String corral, String codigoMadre) {
+
+    public String agregarDatos(String uid, String nombre, String edad, String corral, String codigoMadre) {
         try {
-            if (!iniciadoPreviamente) { iniciarBaseDatos(); }
+            if (!iniciadoPreviamente) {
+                iniciarBaseDatos();
+            }
             Firestore BaseDatos = FirestoreClient.getFirestore();
 
             String codigo = generarCodigo();
             Map<String, Object> datosVaca = new HashMap<>();
-            
+
             datosVaca.put("nombre", nombre);
             datosVaca.put("edad", edad);
             datosVaca.put("corral", corral);
             datosVaca.put("codigoMadre", codigoMadre);
-            
-            BaseDatos.collection(usuario).document(codigo).set(datosVaca);
+
+            BaseDatos.collection(uid).document(codigo).set(datosVaca);
             return codigo;
+        } catch (Exception error) {
+            Logger.getLogger(FireStore.class.getName()).log(Level.SEVERE, null, error);
+            return "Error";
+        }
+    }
+
+    public String obtenerDatos(String idUsuario) {
+        try {
+            if (!iniciadoPreviamente) {
+                iniciarBaseDatos();
+            }
+            Firestore BaseDatos = FirestoreClient.getFirestore();
+
+            ApiFuture<QuerySnapshot> solicitud = BaseDatos.collection(idUsuario).get();
+            List<QueryDocumentSnapshot> datosFirestore = solicitud.get().getDocuments();
+
+            JSONObject datosUsuario = new JSONObject();
+            JSONObject datosVaca = new JSONObject();
+            
+            for (QueryDocumentSnapshot elementoFirestore : datosFirestore) {
+                String codigo = elementoFirestore.getId();
+                String nombre = elementoFirestore.toObject(Vaca.class).nombre;
+                String edad = elementoFirestore.toObject(Vaca.class).edad;
+                //String promedioLeche = elementoFirestore.toObject(Vaca.class).promedioLeche;
+                String corral = elementoFirestore.toObject(Vaca.class).corral;
+                String codigoMadre = elementoFirestore.toObject(Vaca.class).codigoMadre;
+                
+                datosVaca.put("nombre", nombre);
+                datosVaca.put("edad", edad);
+                datosVaca.put("corral", corral);
+                datosVaca.put("codigoMadre", codigoMadre);
+                
+                datosUsuario.put(codigo, datosVaca.toString());
+            }
+            
+            return datosUsuario.toString();
         } catch (Exception error) {
             Logger.getLogger(FireStore.class.getName()).log(Level.SEVERE, null, error);
             return "Error";

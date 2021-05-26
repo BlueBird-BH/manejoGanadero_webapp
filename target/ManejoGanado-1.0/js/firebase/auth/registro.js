@@ -16,3 +16,8 @@ formularioRegistro.addEventListener('submit', respuestaServidor => {
         });
 });
 
+autenticacion.onAuthStateChanged(function (usuarioRegistrado) {
+        if (usuarioRegistrado) {
+            window.location.replace("ganado.html")
+        }
+    });

@@ -12,6 +12,10 @@
 
         <!-- CSS -->
         <link rel="stylesheet" href="css/registroUsuarios.css">
+        
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
     </head>
 
     <body>
@@ -47,7 +51,7 @@
                             <div class="contenedorGoogle">
                                 <span class="tituloGoogle">¡Ingresa con Google!</span>
                                 <ul class="grupoIconosGoogle">
-                                    <li><a href="#"><i class="recuadroGoogle zmdi zmdi-google"></i></a></li>
+                                    <li><a href="#"><i class="recuadroGoogle zmdi zmdi-google" onclick="ingresarGoogle()"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -57,5 +61,7 @@
 
         </div>
     </body>
-
+    <script src="js/firebase/auth/inicializarFirebase.js"></script>
+    <script src="js/firebase/auth/ingreso.js"></script>
+    <script src="js/firebase/auth/autenticacionGoogle.js"></script>
 </html>
