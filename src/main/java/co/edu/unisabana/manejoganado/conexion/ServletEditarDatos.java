@@ -12,15 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ServletAgregarDatos extends HttpServlet {
+public class ServletEditarDatos extends HttpServlet {
 
     private FireStore gestorDatos = new FireStore();
     
-    private void enviarRespuesta(HttpServletResponse response, String codigo) throws IOException {
+    private void enviarRespuesta(HttpServletResponse response, String codigoRespuesta) throws IOException {
         try ( PrintWriter out = response.getWriter()) {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            out.print(codigo);
+            out.print(codigoRespuesta);
             out.flush();
         }
     }
@@ -36,6 +36,7 @@ public class ServletAgregarDatos extends HttpServlet {
         JsonObject datos = gson.fromJson(datosJson, JsonObject.class);
 
         String usuario = datos.get("usuario").getAsString();
+        String codigo = datos.get("codigo").getAsString();
         String nombre = datos.get("nombre").getAsString();
         String edad = datos.get("edad").getAsString();
         String listaDias = datos.get("listaDias").getAsString();
@@ -44,11 +45,11 @@ public class ServletAgregarDatos extends HttpServlet {
         String corral = datos.get("corral").getAsString();
         String codigoMadre = datos.get("codigoMadre").getAsString();
 
-        String codigo = gestorDatos.agregarDatos(usuario, nombre, edad, listaDias, listaLeche, promedioLeche, corral, codigoMadre);
-        enviarRespuesta(response, codigo);
+        String codigoRespuesta = gestorDatos.actualizarDatos(usuario, codigo, nombre, edad, listaDias, listaLeche, promedioLeche, corral, codigoMadre);
+        enviarRespuesta(response, codigoRespuesta);
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

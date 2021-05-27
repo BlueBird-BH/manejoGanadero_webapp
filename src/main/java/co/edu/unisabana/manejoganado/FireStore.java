@@ -65,7 +65,7 @@ public class FireStore {
         }
     }
 
-    public String agregarDatos(String uid, String nombre, String edad, String corral, String codigoMadre) {
+    public String agregarDatos(String uid, String nombre, String edad, String listaDias, String listaLeche, String promedioLeche, String corral, String codigoMadre) {
         try {
             if (!iniciadoPreviamente) {
                 iniciarBaseDatos();
@@ -73,10 +73,14 @@ public class FireStore {
             Firestore BaseDatos = FirestoreClient.getFirestore();
 
             String codigo = generarCodigo();
+            
             Map<String, Object> datosVaca = new HashMap<>();
-
+            datosVaca.put("codigo", codigo);
             datosVaca.put("nombre", nombre);
             datosVaca.put("edad", edad);
+            datosVaca.put("listaDias", listaDias);
+            datosVaca.put("listaLeche", listaLeche);
+            datosVaca.put("promedioLeche", promedioLeche);
             datosVaca.put("corral", corral);
             datosVaca.put("codigoMadre", codigoMadre);
 
@@ -105,12 +109,17 @@ public class FireStore {
                 String codigo = elementoFirestore.getId();
                 String nombre = elementoFirestore.toObject(Vaca.class).nombre;
                 String edad = elementoFirestore.toObject(Vaca.class).edad;
-                //String promedioLeche = elementoFirestore.toObject(Vaca.class).promedioLeche;
+                String listaDias = elementoFirestore.toObject(Vaca.class).listaDias;
+                String listaLeche = elementoFirestore.toObject(Vaca.class).listaLeche;
+                String promedioLeche = elementoFirestore.toObject(Vaca.class).promedioLeche;
                 String corral = elementoFirestore.toObject(Vaca.class).corral;
                 String codigoMadre = elementoFirestore.toObject(Vaca.class).codigoMadre;
-                
+
                 datosVaca.put("nombre", nombre);
                 datosVaca.put("edad", edad);
+                datosVaca.put("listaDias", listaDias);
+                datosVaca.put("listaLeche", listaLeche);
+                datosVaca.put("promedioLeche", promedioLeche);
                 datosVaca.put("corral", corral);
                 datosVaca.put("codigoMadre", codigoMadre);
                 
@@ -118,6 +127,31 @@ public class FireStore {
             }
             
             return datosUsuario.toString();
+        } catch (Exception error) {
+            Logger.getLogger(FireStore.class.getName()).log(Level.SEVERE, null, error);
+            return "Error";
+        }
+    }
+    
+    public String actualizarDatos(String uid, String codigo, String nombre, String edad, String listaDias, String listaLeche, String promedioLeche, String corral, String codigoMadre) {
+        try {
+            if (!iniciadoPreviamente) {
+                iniciarBaseDatos();
+            }
+            Firestore BaseDatos = FirestoreClient.getFirestore();
+
+            Map<String, Object> datosVaca = new HashMap<>();
+            datosVaca.put("codigo", codigo);
+            datosVaca.put("nombre", nombre);
+            datosVaca.put("edad", edad);
+            datosVaca.put("listaDias", listaDias);
+            datosVaca.put("listaLeche", listaLeche);
+            datosVaca.put("promedioLeche", promedioLeche);
+            datosVaca.put("corral", corral);
+            datosVaca.put("codigoMadre", codigoMadre);
+
+            BaseDatos.collection(uid).document(codigo).set(datosVaca);
+            return "200";
         } catch (Exception error) {
             Logger.getLogger(FireStore.class.getName()).log(Level.SEVERE, null, error);
             return "Error";

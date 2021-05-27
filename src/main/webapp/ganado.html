@@ -12,8 +12,15 @@
         <link rel="stylesheet" href="css/manejoGanado.css">
         <!-- Javascript -->
         <script src="js/local/gestionAnimaciones.js"></script>
-        <script src="js/firebase/modificarDatos.js"></script>
+        <script src="js/firebase/agregarDatos.js"></script>
+        <script src="js/firebase/editarDatos.js"></script>
+        <script src="js/firebase/gestionGeneral.js"></script>
+        <script src="js/firebase/modificarDatosWeb.js"></script>
         <script src="js/graficos/chart.js"></script>
+        <script>
+            var vacas = [{null: null}];
+            var fecha = new Date();
+        </script>
         <!-- Firebase -->
         <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
@@ -83,18 +90,18 @@
                                         </tr>
                                     </thead>
                                     <tbody id="datosTabla">
-                                        <tr>
+                                        <!-- <tr>
                                             <td data-label="Codigo">423122</td>
                                             <td data-label="Nombre">Juana</td>
                                             <td data-label="Meses de edad">48</td>
                                             <td data-label="Promedio de leche">7 Litros</td>
                                             <td data-label="Corral">2</td>
                                             <td data-label="Opciones">
-                                                <i class="boton botonInforme fas fa-file-alt" onclick="accesoDirectoInforme()"></i>
+                                                <i class="boton botonInforme fas fa-file-alt" onclick="accesoDirectoInforme(id)"></i>
                                                 <i class="boton botonEditar fas fa-edit" onclick="abrirVentana('ventanaEditar')"></i>
                                                 <i class="boton botonEliminar fas fa-trash-alt" onclick="abrirVentana('ventanaEliminar')"></i>
                                             </td>
-                                        </tr>
+                                        </tr>-->
                                     </tbody>
                                 </table>
                             </div>
@@ -105,8 +112,8 @@
                             <div id="lista" class="desplegable" tabindex="1">
                                 <input id="opcionTitulo" class="inputDesplegable" name="opcion" type="radio" disabled checked>
                                 <label for="opcionTitulo" class="labelDesplegable">Selecciona un nombre</label>
-                                <input id="423122" class="inputDesplegable" name="opcion" type="radio">
-                                <label for="423122" class="labelDesplegable">Juana</label>
+                                <!-- <input id="423122" class="inputDesplegable" name="opcion" type="radio">
+                                <label for="423122" class="labelDesplegable">Juana</label>-->
                             </div>
                             <!-- Menu -->
                             <nav class="contenedorMenuHistorial menuHistorial">
@@ -150,13 +157,13 @@
                                         <table class="informe">
                                             <tbody id="datosInforme">
                                                 <tr>
-                                                    <td data-label="Codigo">423122</td>
-                                                    <td data-label="Nombre">Juana</td>
-                                                    <td data-label="Meses de edad">48</td>
-                                                    <td data-label="Produccion diaria de leche">7 Litros</td>
-                                                    <td data-label="Corral donde se encuentra">2</td>
-                                                    <td data-label="Codigo de la madre">223748</td>
-                                                    <td data-label="Nombre de la madre">Juana</td>
+                                                    <td id="informeCodigo" data-label="Codigo">-</td>
+                                                    <td id="informeNombre" data-label="Nombre">-</td>
+                                                    <td id="informeEdad" data-label="Meses de edad">-</td>
+                                                    <td id="informeLeche" data-label="Produccion diaria de leche">-</td>
+                                                    <td id="informeCorral" data-label="Corral donde se encuentra">-</td>
+                                                    <td id="informeCodigoMadre" data-label="Codigo de la madre">-</td>
+                                                    <td id="informeNombreMadre" data-label="Nombre de la madre">-</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -289,15 +296,15 @@
                     <tr>
                         <td>
                             <form class="formVentanaAccion">
-                                <div class="contenedorVentanaAccion">
-                                    <input id="produccionNombre" type="text" name="name" class="textoVentanaAccion ingresoTexto" value="Nombre" disabled>
+                                <div id="produccionNombre" class="contenedorVentanaAccion">
+                                    <input type="text" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Nombre" disabled>
                                 </div>
 
                                 <div class="contenedorVentanaAccion">
-                                    <input id="produccionLitros" type="number" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Litros de leche" required>
+                                    <input id="inputProduccion" type="number" name="name" class="textoVentanaAccion ingresoTexto" placeholder="Litros de leche" required>
                                 </div>
 
-                                <i onclick="agregarDatosProduccion()" class="botonVentanaAccion botonGuardar fas fa-plus"></i>
+                                <i onclick="agregarDatosLeche()" class="botonVentanaAccion botonGuardar fas fa-plus"></i>
                                 <i onclick="cerrarVentana('ventanaProduccion')" class="botonVentanaAccion botonCerrar fas fa-undo-alt"></i>
                             </form>
                         </td>

@@ -24,7 +24,8 @@ function cambiarCategoriaHistorial(id) {
     buscarContenido(id, diccionario);
 }
 
-function accesoDirectoInforme() {
+function accesoDirectoInforme(id) {
+    cambiarElementoLista(id);
     cambiarCategoriaHistorial("botonInforme");
     cambiarCategoria("botonHistorial");
 }

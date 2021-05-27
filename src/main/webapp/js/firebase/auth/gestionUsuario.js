@@ -34,7 +34,7 @@ function obtenerDatosUsuario() {
     fetch(url, metodoAjax)
             .then(datos => datos.text())
             .then(datos => JSON.parse(datos))
-            .then(datos => datosVaquitas(datos));
+            .then(datos => mostrarDatosUsuario(datos));
 }
 
 function cerrarSesion() {
