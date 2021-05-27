@@ -16,15 +16,6 @@ public class ServletEditarDatos extends HttpServlet {
 
     private FireStore gestorDatos = new FireStore();
     
-    private void enviarRespuesta(HttpServletResponse response, String codigoRespuesta) throws IOException {
-        try ( PrintWriter out = response.getWriter()) {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            out.print(codigoRespuesta);
-            out.flush();
-        }
-    }
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,8 +36,7 @@ public class ServletEditarDatos extends HttpServlet {
         String corral = datos.get("corral").getAsString();
         String codigoMadre = datos.get("codigoMadre").getAsString();
 
-        String codigoRespuesta = gestorDatos.actualizarDatos(usuario, codigo, nombre, edad, listaDias, listaLeche, promedioLeche, corral, codigoMadre);
-        enviarRespuesta(response, codigoRespuesta);
+        gestorDatos.actualizarDatos(usuario, codigo, nombre, edad, listaDias, listaLeche, promedioLeche, corral, codigoMadre);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

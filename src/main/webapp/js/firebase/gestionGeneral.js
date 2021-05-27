@@ -15,16 +15,22 @@ function buscarVaca(codigo) {
 }
 
 function buscarNombre(codigo) {
-    var nombreVaca = "-";
     var vacaRequerida = buscarVaca(codigo);
-
-    if (vacaRequerida) { nombreVaca = vacaRequerida.nombre; }
+    var nombreVaca = vacaRequerida.nombre;
     return nombreVaca;
 }
 
-function agregarJSON(codigo, nombre, edad, listaDias, listaLeche, promedioLeche, corral, codigoMadre) {
-    var nombreMadre = buscarNombre(codigoMadre);
 
+function buscarMadre(codigoMadre) {
+    var nombreMadre = "-";
+    if (codigoMadre !== "-") {
+        var datosMadre = buscarVaca(codigoMadre);
+        var nombreMadre = datosMadre.nombre;
+    }
+    return nombreMadre;
+}
+
+function agregarJSON(codigo, nombre, edad, listaDias, listaLeche, promedioLeche, corral, codigoMadre) {
     for (n = 0; n < arguments.length; n++) {
         var valorInvalido = (!arguments[n]);
         var valoresNumericosVacios = (listaDias === "-" && listaDias === "-" && promedioLeche === "-");
@@ -38,7 +44,6 @@ function agregarJSON(codigo, nombre, edad, listaDias, listaLeche, promedioLeche,
                 promedioLeche = 0;
             }
         }
-
     }
 
     vacas.push({
@@ -49,8 +54,23 @@ function agregarJSON(codigo, nombre, edad, listaDias, listaLeche, promedioLeche,
         listaLeche: listaLeche,
         promedioLeche: promedioLeche,
         corral: corral,
-        codigoMadre: codigoMadre,
-        nombreMadre: nombreMadre
+        codigoMadre: codigoMadre
+    });
+}
+
+function editarJSON(listaDatos) {
+    var codigo = buscarVaca(listaDatos[0]);
+    delete vacas[codigo];
+    
+    vacas.push({
+        codigo: listaDatos[0],
+        nombre: listaDatos[1],
+        edad: listaDatos[2],
+        listaDias: listaDatos[3],
+        listaLeche: listaDatos[4],
+        promedioLeche: listaDatos[5],
+        corral: listaDatos[6],
+        codigoMadre: listaDatos[7]
     });
 }
 
@@ -60,4 +80,9 @@ function adjuntarDatos(codigo, nombre, edad, listaDias, listaLeche, promedioLech
     añadirElementosLista(codigo, nombre);
 
     return contenidoHTML;
+}
+
+function mostrarError(error) {
+    alert("Ha ocurrido un error inesperado");
+    console.error(error);
 }

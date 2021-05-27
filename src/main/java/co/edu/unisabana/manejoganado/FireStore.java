@@ -133,7 +133,7 @@ public class FireStore {
         }
     }
     
-    public String actualizarDatos(String uid, String codigo, String nombre, String edad, String listaDias, String listaLeche, String promedioLeche, String corral, String codigoMadre) {
+    public void actualizarDatos(String uid, String codigo, String nombre, String edad, String listaDias, String listaLeche, String promedioLeche, String corral, String codigoMadre) {
         try {
             if (!iniciadoPreviamente) {
                 iniciarBaseDatos();
@@ -151,10 +151,21 @@ public class FireStore {
             datosVaca.put("codigoMadre", codigoMadre);
 
             BaseDatos.collection(uid).document(codigo).set(datosVaca);
-            return "200";
         } catch (Exception error) {
             Logger.getLogger(FireStore.class.getName()).log(Level.SEVERE, null, error);
-            return "Error";
+        }
+    }
+    
+    public void eliminarDatos(String uid, String codigo) {
+        try {
+            if (!iniciadoPreviamente) {
+                iniciarBaseDatos();
+            }
+            Firestore BaseDatos = FirestoreClient.getFirestore();
+
+            BaseDatos.collection(uid).document(codigo).delete();
+        } catch (Exception error) {
+            Logger.getLogger(FireStore.class.getName()).log(Level.SEVERE, null, error);
         }
     }
 }

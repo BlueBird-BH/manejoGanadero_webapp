@@ -16,6 +16,10 @@
         <servlet-name>ServletEditarDatos</servlet-name>
         <servlet-class>co.edu.unisabana.manejoganado.conexion.ServletEditarDatos</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletEliminarDatos</servlet-name>
+        <servlet-class>co.edu.unisabana.manejoganado.conexion.ServletEliminarDatos</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletAgregarDatos</servlet-name>
         <url-pattern>/ServletAgregarDatos</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>ServletEditarDatos</servlet-name>
         <url-pattern>/ServletEditarDatos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletEliminarDatos</servlet-name>
+        <url-pattern>/ServletEliminarDatos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

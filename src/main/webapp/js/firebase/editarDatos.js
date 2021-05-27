@@ -1,3 +1,13 @@
+function editarDatos(codigo) {
+    var vaca = buscarVaca(codigo);
+    var nombre = document.getElementById("editarNombre").value;
+    var corral = document.getElementById("editarCorral").value;
+    var codigoMadre = document.getElementById("editarCodigoMadre").value;
+    
+    enviarDatosEditados(codigo, nombre, vaca.edad, vaca.listaDias, vaca.listaLeche, vaca.promedioLeche, corral, codigoMadre);
+    cerrarVentana("ventanaAgregar");
+}
+
 function obtenerDatosActualizados(listaDatos) {
     var datosVaca = {
         usuario: identificacionUsuario(),
@@ -13,12 +23,12 @@ function obtenerDatosActualizados(listaDatos) {
     return datosVaca;
 }
 
-function enviarDatosEditados(codigo, nombre, edad, listaDias, listaLeche, promedioLeche, corral, codigoMadre) {
+function enviarDatosEditados(lista) {
+    var listaDatos = lista;
     var url = "ServletEditarDatos";
-    var listaDatos = [codigo, nombre, edad, listaDias, listaLeche, promedioLeche, corral, codigoMadre];
     var datosVaca = obtenerDatosActualizados(listaDatos);
     var metodoAjax = {method: 'POST', body: JSON.stringify(datosVaca)};
+    editarJSON(listaDatos);
 
-    fetch(url, metodoAjax)
-            .then(response => response.text());
+    fetch(url, metodoAjax);
 }

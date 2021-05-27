@@ -1,8 +1,12 @@
-var codigoSeleccionadoLista;
-
-// Funciones generales
-function abrirVentana(id) {
-    modificarEstadoVentana(id, "activo");
+function abrirVentana(idVentana, idCodigo) {
+    modificarEstadoVentana(idVentana, "activo");
+    if (idVentana === "ventanaEditar") {
+        codigoSeleccionadoLista = extraerId(idCodigo);
+        tituloVentanaEditar();
+    } else if (idVentana === "ventanaEliminar") {
+        codigoSeleccionadoLista = extraerId(idCodigo);
+        tituloVentanaEliminar();
+    }
 }
 
 function cerrarVentana(id) {
@@ -19,12 +23,6 @@ function modificarEstadoVentana(id, estado) {
     }
 }
 
-function mostrarError(error) {
-    alert("Ha ocurrido un error inesperado");
-    console.error(error);
-}
-
-
 function generarIdElementos(identificador, elemento) {
     return identificador + "." + elemento;
 }
@@ -34,7 +32,6 @@ function extraerId(id) {
     return codigos[1];
 }
 
-// Funciones referentes a los datos del usuario
 function mostrarDatosUsuario(datos) {
     var tabla = document.getElementById("datosTabla");
 
@@ -70,7 +67,7 @@ function gestionarDatosLeche(codigo, litros) {
     var listaLeche = new Array(vaca.listaLeche);
     var listaDias = new Array(vaca.listaDias);
     var dia = fecha.getDate() + "-" + fecha.getMonth();
-   
+
     var produccionNula = (listaLeche[0] === "0");
     if (produccionNula) {
         listaLeche[0] = litros;
@@ -79,33 +76,26 @@ function gestionarDatosLeche(codigo, litros) {
         listaLeche.push(litros);
         listaDias.push(dia);
     }
-    
-    enviarDatosEditados(
-            codigo,
-            vaca.nombre,
-            vaca.edad,
-            listaDias.toString(),
-            listaLeche.toString(),
-            calcularPromedio(listaLeche).toString(),
-            vaca.corral,
-            vaca.codigoMadre
-            );
-    
-    agregarJSON(
-            codigo,
-            vaca.nombre,
-            vaca.edad,
-            listaDias.toString(),
-            listaLeche.toString(),
-            calcularPromedio(listaLeche).toString(),
-            vaca.corral,
-            vaca.codigoMadre
-            );
-    
+
+    listaDatos = [
+        codigo,
+        vaca.nombre,
+        vaca.edad,
+        listaDias.toString(),
+        listaLeche.toString(),
+        calcularPromedio(listaLeche).toString(),
+        vaca.corral,
+        vaca.codigoMadre
+    ];
+
+    enviarDatosEditados(listaDatos);
+    editarJSON(listaDatos);
     agregarDatosGrafica(dia, litros);
 }
 
 function presentarGrafica(codigo) {
+    var vaca = buscarVaca(codigo);
+    cargarValoresPrevios(vaca.listaDias, vaca.listaLeche);
     mostrarNombreProduccion(codigo);
 }
 
@@ -158,6 +148,19 @@ function seleccionarVaca(id) {
     actualizarHistorial(codigo);
 }
 
+function tituloVentanaEditar() {
+    var titulo = document.getElementById("editarCodigo");
+    titulo.value = codigoSeleccionadoLista;
+}
+
+function tituloVentanaEliminar() {
+    var codigo = document.getElementById("eliminarCodigo");
+    var nombre = document.getElementById("eliminarNombre");
+
+    codigo.value = codigoSeleccionadoLista;
+    nombre.value = buscarNombre(codigoSeleccionadoLista);
+}
+
 function actualizarHistorial(codigo) {
     codigoSeleccionadoLista = codigo;
     presentarGrafica(codigo);
@@ -175,38 +178,47 @@ function presentarInforme(codigoSeleccionado) {
 
     try {
         var datosVaca = buscarVaca(codigoSeleccionado);
+
+        var codigoMadre = datosVaca.codigoMadre;
+        var nombreMadre = "-";
+        if (codigoMadre !== "-") {
+            nombreMadre = buscarMadre(codigoMadre);
+            ;
+        }
+
         informeCodigo.innerHTML = codigoSeleccionado;
         informeNombre.innerHTML = datosVaca.nombre;
         informeEdad.innerHTML = datosVaca.edad;
-        informeLeche.innerHTML = datosVaca.leche;
+        informeLeche.innerHTML = datosVaca.promedioLeche;
         informeCorral.innerHTML = datosVaca.corral;
-        informeCodigoMadre.innerHTML = datosVaca.codigoMadre;
-        informeNombreMadre.innerHTML = datosVaca.nombreMadre;
+        informeCodigoMadre.innerHTML = codigoMadre;
+        informeNombreMadre.innerHTML = nombreMadre;
     } catch (error) {
         mostrarError(error);
     }
 }
 
-
-
 function crearTabla(codigo, nombre, edad, promedioLeche, corral) {
     var contenidoHTML;
     try {
-        contenidoHTML = "<tr>";
+        contenidoHTML = `<tr id="${generarIdElementos('tabla', codigo)}">`;
         contenidoHTML += `  <td id="${generarIdElementos('codigo', codigo)}" data-label="Codigo">${codigo}</td>`;
         contenidoHTML += `  <td id="${generarIdElementos('nombre', codigo)}" data-label="Nombre">${nombre}</td>`;
         contenidoHTML += `  <td id="${generarIdElementos('edad', codigo)}" data-label="Meses de edad">${edad}</td>`;
         contenidoHTML += `  <td id="${generarIdElementos('leche', codigo)}" data-label="Promedio de leche">${promedioLeche}</td>`;
         contenidoHTML += `  <td id="${generarIdElementos('corral', codigo)}" data-label="Corral">${corral}</td>`;
-        contenidoHTML += `  <td data-label="Opciones"><i id="${generarIdElementos('opciones', codigo)}" class="boton botonInforme fas fa-file-alt" onclick="accesoDirectoInforme(id)"></i>`;
-        contenidoHTML += `  <i class="boton botonEditar fas fa-edit" onclick="abrirVentana('ventanaEditar')"></i>`;
-        contenidoHTML += `  <i class="boton botonEliminar fas fa-trash-alt" onclick="abrirVentana('ventanaEliminar')"></i></td>`;
+        contenidoHTML += `  <td data-label="Opciones"><i id="${generarIdElementos('informe', codigo)}" class="boton botonInforme fas fa-file-alt" onclick="accesoDirectoInforme(id)"></i>`;
+        contenidoHTML += `  <i id="${generarIdElementos('editar', codigo)}"  class="boton botonEditar fas fa-edit" onclick="abrirVentana('ventanaEditar', id)"></i>`;
+        contenidoHTML += `  <i id="${generarIdElementos('eliminar', codigo)}"  class="boton botonEliminar fas fa-trash-alt" onclick="abrirVentana('ventanaEliminar', id)"></i></td>`;
         contenidoHTML += "</tr>";
     } catch (error) {
         mostrarError(error);
     }
-
     return contenidoHTML;
 }
 
-// Agregar datos - Final
+function eliminarTabla(codigo) {
+    var id = generarIdElementos('tabla', codigo);
+    var tabla = document.getElementById(id);
+    tabla.remove();
+}

@@ -14,12 +14,14 @@
         <script src="js/local/gestionAnimaciones.js"></script>
         <script src="js/firebase/agregarDatos.js"></script>
         <script src="js/firebase/editarDatos.js"></script>
+        <script src="js/firebase/borrarDatos.js"></script>
         <script src="js/firebase/gestionGeneral.js"></script>
         <script src="js/firebase/modificarDatosWeb.js"></script>
         <script src="js/graficos/chart.js"></script>
         <script>
             var vacas = [{null: null}];
             var fecha = new Date();
+            var codigoSeleccionadoLista;
         </script>
         <!-- Firebase -->
         <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
@@ -89,20 +91,7 @@
                                             <th scope="col">Opciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="datosTabla">
-                                        <!-- <tr>
-                                            <td data-label="Codigo">423122</td>
-                                            <td data-label="Nombre">Juana</td>
-                                            <td data-label="Meses de edad">48</td>
-                                            <td data-label="Promedio de leche">7 Litros</td>
-                                            <td data-label="Corral">2</td>
-                                            <td data-label="Opciones">
-                                                <i class="boton botonInforme fas fa-file-alt" onclick="accesoDirectoInforme(id)"></i>
-                                                <i class="boton botonEditar fas fa-edit" onclick="abrirVentana('ventanaEditar')"></i>
-                                                <i class="boton botonEliminar fas fa-trash-alt" onclick="abrirVentana('ventanaEliminar')"></i>
-                                            </td>
-                                        </tr>-->
-                                    </tbody>
+                                    <tbody id="datosTabla"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -112,8 +101,6 @@
                             <div id="lista" class="desplegable" tabindex="1">
                                 <input id="opcionTitulo" class="inputDesplegable" name="opcion" type="radio" disabled checked>
                                 <label for="opcionTitulo" class="labelDesplegable">Selecciona un nombre</label>
-                                <!-- <input id="423122" class="inputDesplegable" name="opcion" type="radio">
-                                <label for="423122" class="labelDesplegable">Juana</label>-->
                             </div>
                             <!-- Menu -->
                             <nav class="contenedorMenuHistorial menuHistorial">
@@ -267,12 +254,12 @@
 
                                 <div class="contenedorVentanaAccion">
                                     <p class="textoVentanaAccion subtituloVentana">Codigo</p>
-                                    <input id="eliminarCodigo" type="text" name="name" class="ingresoTexto" value="" disabled>
+                                    <input id="eliminarCodigo" type="text" name="name" class="textoVentanaAccion ingresoTexto" value="Codigo" disabled>
                                 </div>
 
                                 <div class="contenedorVentanaAccion">
                                     <p class="textoVentanaAccion subtituloVentana">Nombre</p>
-                                    <input id="eliminarNombre" type="text" name="name" class="ingresoTexto" value="" disabled>
+                                    <input id="eliminarNombre" type="text" name="name" class="textoVentanaAccion ingresoTexto" value="Nombre" disabled>
                                 </div>
 
                                 <i onclick="eliminarDatos()" class="botonVentanaAccion botonGuardar fas fa-check-square"></i>
